@@ -91,6 +91,11 @@ const CronJobList = () => {
     setIsWebhookDialogOpen(false);
   };
 
+  // Filter cronJobs based on the filter input
+  const filteredCronJobs = cronJobs.filter((job) =>
+    job.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <div style={{ 
       flexDirection: 'column', 
@@ -112,7 +117,7 @@ const CronJobList = () => {
       <Grid container spacing={2} style={{ marginBottom: '16px', marginTop: '50px' }}>
         <Grid item xs={12} md={4}>
           <TextField
-            label="Filter by Job Code"
+            label="Filter by Job Name" // Updated label
             variant="outlined"
             fullWidth
             value={filter}
@@ -163,40 +168,42 @@ const CronJobList = () => {
             {error}
           </Typography>
         ) : (
-          <Table>
-            <TableHead style={{ backgroundColor: '#4a90e2', color: '#fff' }}>
-              <TableRow>
-                <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Id</TableCell>
-                <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Name</TableCell>
-                <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Trigger URL</TableCell>
-                <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Schedule</TableCell>
-                <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Start Date</TableCell>
-                <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {cronJobs.map((job, index) => (
-                <TableRow key={job._id} style={{ backgroundColor: index % 2 === 0 ? '#e9f1f5' : '#ffffff' }}>
-                  <TableCell>{job._id}</TableCell>
-                  <TableCell>{job.name}</TableCell>
-                  <TableCell>{job.triggerUrl}</TableCell>
-                  <TableCell>{job.schedule}</TableCell>
-                  <TableCell>{new Date(job.startDate).toISOString().split('T')[0]}</TableCell>
-                  <TableCell>
-                    <IconButton color="primary" onClick={() => handleViewJob(job)}>
-                      <Visibility style={{ color: '#aaaaaa' }} />
-                    </IconButton>
-                    <IconButton color="primary" onClick={() => handleEditJob(job)}>
-                      <Edit style={{ color: '#3c785c' }} />
-                    </IconButton>
-                    <IconButton color="secondary" onClick={() => handleDeleteJob(job._id)}>
-                      <Delete style={{ color: '#fb3939' }} />
-                    </IconButton>
-                  </TableCell>
+          <div style={{ overflowX: 'auto' }}>
+            <Table>
+              <TableHead style={{ backgroundColor: '#4a90e2', color: '#fff' }}>
+                <TableRow>
+                  <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Id</TableCell>
+                  <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Name</TableCell>
+                  <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Trigger URL</TableCell>
+                  <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Schedule</TableCell>
+                  <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Start Date</TableCell>
+                  <TableCell style={{ color: '#fff', fontWeight: 'bold' }}>Action</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+              <TableBody>
+                {filteredCronJobs.map((job, index) => ( // Use filteredCronJobs instead of cronJobs
+                  <TableRow key={job._id} style={{ backgroundColor: index % 2 === 0 ? '#e9f1f5' : '#ffffff' }}>
+                    <TableCell>{job._id}</TableCell>
+                    <TableCell>{job.name}</TableCell>
+                    <TableCell>{job.triggerUrl}</TableCell>
+                    <TableCell>{job.schedule}</TableCell>
+                    <TableCell>{new Date(job.startDate).toISOString().split('T')[0]}</TableCell>
+                    <TableCell>
+                      <IconButton color="primary" onClick={() => handleViewJob(job)}>
+                        <Visibility style={{ color: '#aaaaaa' }} />
+                      </IconButton>
+                      <IconButton color="primary" onClick={() => handleEditJob(job)}>
+                        <Edit style={{ color: '#3c785c' }} />
+                      </IconButton>
+                      <IconButton color="secondary" onClick={() => handleDeleteJob(job._id)}>
+                        <Delete style={{ color: '#fb3939' }} />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         )}
       </TableContainer>
 
