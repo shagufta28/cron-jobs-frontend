@@ -39,7 +39,7 @@ const CronJobForm = ({ open, onClose, onJobCreated, job, mode }) => {
 
     try {
       if (mode === 'create') {
-        const response = await axios.post('http://localhost:5000/cron-jobs', {
+        const response = await axios.post('https://cron-jobs-dyuy.onrender.com/cron-jobs', {
           name: jobName,
           triggerUrl,
           apiKey,
@@ -48,7 +48,7 @@ const CronJobForm = ({ open, onClose, onJobCreated, job, mode }) => {
         });
         console.log('Job created:', response.data);
       } else if (mode === 'edit') {
-        const response = await axios.put(`http://localhost:5000/cron-jobs/${job._id}`, {
+        const response = await axios.put(`https://cron-jobs-dyuy.onrender.com/cron-jobs/${job._id}`, {
           name: jobName,
           triggerUrl,
           apiKey,

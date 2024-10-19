@@ -34,7 +34,7 @@ const CronJobList = () => {
 
   const fetchCronJobs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/cron-jobs');
+      const response = await axios.get('https://cron-jobs-dyuy.onrender.com/cron-jobs');
       setCronJobs(response.data);
       setError(null); // Clear any previous error
     } catch (error) {
@@ -67,7 +67,7 @@ const CronJobList = () => {
 
   const handleDeleteJob = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/cron-jobs/${id}`);
+      await axios.delete(`https://cron-jobs-dyuy.onrender.com/cron-jobs/${id}`);
       fetchCronJobs();
     } catch (error) {
       console.error('Error deleting job:', error);

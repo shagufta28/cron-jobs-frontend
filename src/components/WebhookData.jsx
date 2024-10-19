@@ -9,7 +9,7 @@ const WebhookData = () => {
   useEffect(() => {
     const fetchWebhookData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/webhook');
+        const response = await axios.get('https://cron-jobs-dyuy.onrender.com/webhook');
         setWebhookData(response.data);
       } catch (err) {
         setError(err.message);
